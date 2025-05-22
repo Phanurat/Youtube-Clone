@@ -5,7 +5,7 @@ const connectDB = require('./config/db');
 const app = express();
 
 // เชื่อมต่อ MongoDB
-connectDB();
+// connectDB();
 
 // เสิร์ฟไฟล์ static (CSS, รูปภาพ, JS)
 app.use(express.static(path.join(__dirname, 'public')));

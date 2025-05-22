@@ -1,19 +1,22 @@
-import mongoose from 'mongoose';
-import File from './models/File.js'; // นำเข้าโมเดล File
+import pkg from 'pg';
+const { Pool } = pkg;
 
-// เชื่อมต่อ MongoDB
-mongoose.connect('mongodb://localhost:27017/', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('✅ Connected to MongoDB'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'testdb',
+  password: '252544', // เปลี่ยนตามจริง
+  port: 5432,
+});
 
-// ฟังก์ชันเพื่อดึงข้อมูลทั้งหมดจาก collection
 async function getAllFiles() {
   try {
-    // ใช้ find() เพื่อดึงข้อมูลทั้งหมดจาก collection "files"
-    const files = await File.find();
-    console.log('All Files:', files);
+    const result = await pool.query('SELECT * FROM files ORDER BY id DESC');
+    console.log('All Files:', result.rows);
   } catch (err) {
     console.error('Error fetching files:', err);
+  } finally {
+    await pool.end();
   }
 }
 

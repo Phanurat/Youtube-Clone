@@ -1,20 +1,31 @@
-import mongoose from 'mongoose';
-import File from './models/File.js';
+   import pkg from 'pg';
+const { Pool } = pkg;
 
-// เชื่อมต่อ MongoDB
-mongoose.connect('mongodb://localhost:27017/video_app', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('✅ Connected to MongoDB'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+// สร้าง connection pool
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'testdb',
+  password: '252544',
+  port: 5432,
+});
 
-// การบันทึกไฟล์
+// ฟังก์ชันบันทึกไฟล์
 async function uploadFile() {
-  const newFile = new File({
-    filename: 'video2.mp4',
-    title: 'My First001 Video',
-  });
+  const filename = 'video22.mp4';
+  const title = 'My First0021 Video';
 
-  await newFile.save();
-  console.log('File uploaded and saved!');
+  try {
+    const result = await pool.query(
+      'INSERT INTO files (filename, title) VALUES ($1, $2) RETURNING *',
+      [filename, title]
+    );
+    console.log('File uploaded and saved!', result.rows[0]);
+  } catch (err) {
+    console.error('Error saving file:', err);
+  } finally {
+    await pool.end();
+  }
 }
 
 uploadFile();
