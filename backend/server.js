@@ -1,59 +1,75 @@
-// Import required libraries
-const express = require('express');
-const multer = require('multer');
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3'); // ใช้ SDK v3
-const dotenv = require('dotenv');
+import express from 'express';
+import multer from 'multer';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import File from './models/File.js';
 
-// Load environment variables from .env file
 dotenv.config();
-
-// Initialize Express app
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Set up multer to store files in memory
+// Multer for memory storage
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Initialize S3 client with Storj endpoint (using AWS SDK v3)
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// Configure S3 (Storj)
 const s3 = new S3Client({
-    region: 'ap-southeast-1', // หรือ region ของคุณ
-    endpoint: process.env.STORJ_ENDPOINT, // Storj endpoint
-    credentials: {
-        accessKeyId: process.env.STORJ_ACCESS_KEY, // Your Storj access key
-        secretAccessKey: process.env.STORJ_SECRET_KEY, // Your Storj secret key
-    },
-    forcePathStyle: true, // สำหรับการใช้ path style สำหรับ S3 compatibility
+  region: 'ap-southeast-1',
+  endpoint: process.env.STORJ_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.STORJ_ACCESS_KEY,
+    secretAccessKey: process.env.STORJ_SECRET_KEY,
+  },
+  forcePathStyle: true,
 });
 
-// Define the upload route
+// Upload route
 app.post('/upload', upload.single('file'), async (req, res) => {
-    const file = req.file;
+  const file = req.file;
+  const title = req.body.title;
 
-    // Check if a file is provided
-    if (!file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
+  // ตรวจสอบว่าไฟล์และ title ถูกส่งมาหรือไม่
+  if (!file || !title) {
+    return res.status(400).json({ error: 'File and title are required' });
+  }
 
-    // Set parameters for the S3 upload
-    const params = {
-        Bucket: process.env.STORJ_BUCKET, // Your Storj bucket name
-        Key: file.originalname, // File name in the bucket
-        Body: file.buffer, // File content
-        ContentType: file.mimetype, // MIME type of the file
-    };
+  const params = {
+    Bucket: process.env.STORJ_BUCKET,
+    Key: file.originalname,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
 
-    // Try uploading the file to Storj using S3Client and PutObjectCommand
-    try {
-        const command = new PutObjectCommand(params); // Create a command
-        await s3.send(command); // Send the command to upload the file
-        res.json({ message: '✅ File uploaded successfully!' });
-    } catch (err) {
-        console.error('Upload error:', err);
-        res.status(500).json({ error: 'Upload failed' });
-    }
+  try {
+    // อัพโหลดไฟล์ไปยัง Storj (S3)
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
+
+    // สร้างไฟล์ใหม่ในฐานข้อมูล MongoDB
+    const newFile = new File({
+      filename: file.originalname, // ใช้ originalname จากไฟล์
+      title: title, // ใช้ title จาก body ของ request
+    });
+
+    // บันทึกข้อมูลลง MongoDB
+    await newFile.save();
+    console.log('✅ File uploaded and saved to DB!');
+
+    // ส่ง response ยืนยันว่าไฟล์ถูกอัพโหลดและบันทึก
+    res.json({ message: '✅ File uploaded and saved to DB!' });
+  } catch (err) {
+    console.error('❌ Upload error:', err);
+    res.status(500).json({ error: 'Upload failed', details: err.message });
+  }
 });
 
-// Start the server on port 4000
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-    console.log(`✅ Storj uploader running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
