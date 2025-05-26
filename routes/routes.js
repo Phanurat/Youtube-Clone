@@ -21,4 +21,12 @@ router.get('/subscriptions', (req, res) => {
   res.sendFile(path.join(__dirname, "..","public",'subscriptions.html'));  // ส่งไฟล์ subscriptions.html
 });
 
+router.get('/admin/upload', (req, res) => {
+  res.sendFile(path.join(__dirname, "..","public","admin/upload.html"));
+});
+
+router.get('/admin/map-video', (req, res) => {
+  res.sendFile(path.join(__dirname, "..","public","admin/map-video.html"));
+});
+
 module.exports = router;

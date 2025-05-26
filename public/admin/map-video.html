@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>📌 Map Files</title>
+</head>
+
+<body>
+  <h1>🗂️ Map Uploaded Files</h1>
+  <div id="fileList">Loading files...</div>
+
+  <script>
+    let allFiles = [];
+
+    async function loadFiles() {
+      try {
+        const response = await fetch('http://localhost:4000/api-v1/list');
+        allFiles = await response.json();
+
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = '';
+
+        allFiles.forEach(file => {
+          const div = document.createElement('div');
+
+          div.innerHTML = `
+            <strong>${file.title}</strong><br>
+            ID: ${file.id}<br>
+            Filename: ${file.filename}<br>
+            Map URL: ${file.map_id ?? '—'}<br>
+            <label>Map to (enter URL): 
+              <input type="url" id="map-input-${file.id}" placeholder="Enter map URL" />
+            </label>
+            <button onclick="mapFile(${file.id})">🧩 Map</button>
+            <hr>
+          `;
+
+          fileList.appendChild(div);
+        });
+      } catch (err) {
+        console.error("❌ Failed to load files:", err);
+        document.getElementById('fileList').innerText = '⚠️ Failed to load files.';
+      }
+    }
+
+    async function mapFile(fileId) {
+      const input = document.getElementById(`map-input-${fileId}`);
+      const mapUrl = input.value.trim();
+
+      if (!mapUrl) {
+        alert("❌ Please enter a map URL.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:4000/api-v1/files/${fileId}/map`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ map_id: mapUrl }) // ส่งเป็น string URL
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('✅ Mapping complete!');
+          loadFiles(); // โหลดข้อมูลใหม่
+        } else {
+          alert('❌ Error: ' + result.error);
+        }
+      } catch (err) {
+        alert('❌ Failed to map: ' + err.message);
+      }
+    }
+
+    loadFiles();
+  </script>
+</body>
+
+</html>
