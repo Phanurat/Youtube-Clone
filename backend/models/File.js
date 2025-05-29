@@ -31,6 +31,11 @@ export async function getAllFiles() {
   return result.rows;
 }
 
+export async function getFileById(id) {
+  const result = await pool.query('SELECT * FROM files WHERE id = $1', [id]);
+  return result.rows[0];
+}
+
 export async function updateFileMapId(fileId, mapId) {
   const query = `
     UPDATE files SET map_id = $1 WHERE id = $2 RETURNING *;

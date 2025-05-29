@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { saveFileMetadata, getAllFiles, updateFileMapId } from './models/file.js';
+import { getFileById } from './models/file.js';
 
 dotenv.config();
 const app = express();
@@ -42,6 +43,18 @@ app.patch('/api-v1/files/:id/map', async (req, res) => {
     } catch (err) {
         console.error('❌ DB Error:', err);
         res.status(500).json({ error: 'Database error' });
+    }
+});
+
+app.get('/api-v1/video/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const file = await getFileById(id);
+        if (!file) return res.status(404).json({ error: 'File not found' });
+        res.json(file);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -84,7 +97,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         res.status(500).json({ error: 'Upload failed', details: err.message });
     }
 });
-
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
