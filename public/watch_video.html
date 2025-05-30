@@ -13,7 +13,7 @@
     <nav class="flex-div">
         <div class="nav-left flex-div">
             <img src="./assets/images/menu.png" class="menu-icon" alt="" srcset="">
-            <img src="./assets/images/logo.png" class="logo" alt="" srcset="">
+            <img src="./assets/images/logo_new.png" class="logo" alt="" srcset="">
         </div>
         <div class="nav-middle flex-div">
             <div class="search-box flex-div">
@@ -199,118 +199,69 @@
                 <hr class="hide-hr">
             </div>
             <div class="right-sidebar">
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail19.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail10.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                <div class="list-video"></div>
+                <script>
+                    async function loadVideoSidebar() {
+                        try {
+                            const response = await fetch('http://localhost:4000/api-v1/list');
+                            if (!response.ok) throw new Error('Network response was not ok');
 
+                            const data = await response.json();
+                            const listSidebar = document.querySelector('.list-video');
+                            listSidebar.innerHTML = '';
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail11.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                            data.forEach(video => {
+                                // สร้าง div ที่เป็นรายการวิดีโอ
+                                const sideVideoDiv = document.createElement('div');
+                                sideVideoDiv.className = 'side-video-list';
 
-                <div class="side-video-list">
-                    <a href="video-12.html" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail12.png"
-                            alt="" srcset=""></a>
-                    <div class="vid-info">
-                        <a href="video-12.html">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias,
-                            nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                // Thumbnail image
+                                const thumbLink = document.createElement('a');
+                                thumbLink.href = `/watch-video?id=${video.id}`;
+                                thumbLink.className = 'small-thumbnail';
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail13.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                const thumbnail = document.createElement('img');
+                                thumbnail.src = video.thumbnail || 'assets/thumbnails/thumbnail3.png';
+                                thumbnail.alt = video.title;
 
+                                thumbLink.appendChild(thumbnail);
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail14.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                // ข้อมูลวิดีโอ
+                                const vidInfo = document.createElement('div');
+                                vidInfo.className = 'vid-info';
 
+                                const titleLink = document.createElement('a');
+                                titleLink.href = `/watch-video?id=${video.id}`;
+                                titleLink.textContent = video.title;
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail15.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                const channelP = document.createElement('p');
+                                channelP.textContent = video.channel || 'Unknown Channel';
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail16.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                const viewsP = document.createElement('p');
+                                viewsP.textContent = `${video.views || 0} Views`;
 
+                                vidInfo.appendChild(titleLink);
+                                vidInfo.appendChild(channelP);
+                                vidInfo.appendChild(viewsP);
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail17.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                sideVideoDiv.appendChild(thumbLink);
+                                sideVideoDiv.appendChild(vidInfo);
 
-                <div class="side-video-list">
-                    <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail18.png" alt=""
-                            srcset=""></a>
-                    <div class="vid-info">
-                        <a href="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias, nostrum?</a>
-                        <p>Avalin Vines</p>
-                        <p>1.1M Views</p>
-                    </div>
-                </div>
+                                listSidebar.appendChild(sideVideoDiv);
+                            });
+                        } catch (err) {
+                            console.error('❌ Fetch error:', err);
+                            document.querySelector('.list-video').textContent = '❌ ไม่สามารถโหลดวิดีโอได้';
+                        }
+                    }
 
-
+                    // เรียกใช้เมื่อโหลดหน้า
+                    loadVideoSidebar();
+                </script>
 
             </div>
         </div>
     </div>
-
-
-
 
 </body>
 
