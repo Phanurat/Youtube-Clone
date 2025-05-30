@@ -30,15 +30,68 @@
         </div>
     </nav>
 
-
     <div class="container play-container">
         <div class="row">
             <div class="play-video">
-                <video controls width="640" height="360" autoplay muted>
-                    <source src="https://link.storjshare.io/raw/jubhum54rnvinzo4gdzwv5vkknhq/myvideo/4961269844640.mp4"
-                        type="video/mp4">
+                <h2 id="video-title">🎬 กำลังโหลดชื่อวิดีโอ...</h2>
+
+                <video id="video-player" controls width="640" height="360" muted>
+                    <source id="video-source" src="" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
+
+                <script>
+                    function getQueryParam(param) {
+                        return new URLSearchParams(window.location.search).get(param);
+                    }
+
+                    async function loadVideo() {
+                        const videoId = getQueryParam('id');
+
+                        if (!videoId) {
+                            console.warn('❌ ไม่มี video ID');
+                            alert('ไม่พบ video ID ใน URL');
+                            return;
+                        }
+
+                        try {
+                            console.log(`🔎 กำลังดึงข้อมูลวิดีโอ id = ${videoId} ...`);
+                            const response = await fetch(`http://localhost:4000/api-v1/video/${videoId}`);
+
+                            if (!response.ok) {
+                                console.error(`❌ HTTP ${response.status}`);
+                                throw new Error('การโหลดข้อมูลล้มเหลว');
+                            }
+
+                            const videoData = await response.json();
+                            console.log('✅ ข้อมูลวิดีโอ:', videoData);
+
+                            if (!videoData || !videoData.map_id) {
+                                throw new Error('❌ ไม่มี map_id (URL ของวิดีโอ)');
+                            }
+
+                            // โหลดวิดีโอเข้า player
+                            const videoSource = document.getElementById('video-source');
+                            const videoPlayer = document.getElementById('video-player');
+                            const videoTitle = document.getElementById('video-title');
+
+                            videoSource.src = videoData.map_id;
+                            videoTitle.textContent = videoData.title || '🎞️ ไม่มีชื่อวิดีโอ';
+
+                            videoPlayer.load();
+                            // videoPlayer.play();
+
+                            console.info('🎉 เล่นวิดีโอเรียบร้อยแล้ว');
+                        } catch (error) {
+                            console.error('🔥 เกิดข้อผิดพลาดขณะโหลดวิดีโอ:', error);
+                            document.getElementById('video-title').textContent = '❌ โหลดวิดีโอล้มเหลว';
+                            alert('เกิดข้อผิดพลาดขณะโหลดวิดีโอ กรุณาลองใหม่');
+                        }
+                    }
+
+                    // เริ่มโหลดเมื่อเปิดหน้า
+                    loadVideo();
+                </script>
 
                 <div class="tags">
                     <a href="">#Entreprenuers</a> <a href="">#billionaires</a> <a href="">#RatanTata</a> <a
@@ -142,18 +195,10 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
                 <hr class="hide-hr">
-
-
             </div>
             <div class="right-sidebar">
-
                 <div class="side-video-list">
                     <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail19.png" alt=""
                             srcset=""></a>
@@ -163,7 +208,6 @@
                         <p>1.1M Views</p>
                     </div>
                 </div>
-
                 <div class="side-video-list">
                     <a href="" class="small-thumbnail"> <img src="./assets/thumbnails/thumbnail10.png" alt=""
                             srcset=""></a>

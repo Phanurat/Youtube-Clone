@@ -12,6 +12,14 @@ router.get('/watch-video', (req, res) => {
   res.sendFile(path.join(__dirname, "..","public",'watch_video.html'));  // ส่งไฟล์ watch_video.html
 });
 
+router.get('/test/player', (req, res) => {
+  res.sendFile(path.join(__dirname, '..','public', 'player.html'));
+});
+
+router.get('/test', (req, res) => {
+  res.sendFile(path.join(__dirname, "..","public",'test.html'));  // ส่งไฟล์ watch_video.html
+});
+
 router.get('/watch-video-v2', (req, res) => {
   res.sendFile(path.join(__dirname, "..","public",'watch_video_storj.html'));  // ส่งไฟล์ watch_video.html
 });

@@ -53,13 +53,20 @@
                 </div>
 
                 <script>
+                    // ดึง videoId จาก URL เช่น /watch-video/1
+                    function getVideoIdFromURL() {
+                        const path = window.location.pathname; // /watch-video/1
+                        const parts = path.split('/');
+                        return parts[2]; // 1
+                    }
+
                     async function loadVideoById(videoId) {
                         try {
-                            const response = await fetch(`http://localhost:4000/api-v1/list/${videoId}`);
+                            const response = await fetch(`http://localhost:4000/api-v1/video/${videoId}`);
                             if (!response.ok) throw new Error('Cannot load video info');
 
                             const video = await response.json();
-                            const videoUrl = video.map_id;  // สมมติ URL อยู่ที่ map_id
+                            const videoUrl = video.map_id;
 
                             if (!videoUrl) {
                                 alert('No video URL found!');
@@ -74,14 +81,18 @@
                             player.play();
 
                         } catch (err) {
-                            console.error(err);
+                            console.error('โหลดวิดีโอล้มเหลว:', err);
                         }
                     }
 
-                    // ตัวอย่าง: โหลดวิดีโอ id=2
-                    loadVideoById(2);
+                    // เริ่มโหลดวิดีโอตาม ID จาก URL
+                    const videoId = getVideoIdFromURL();
+                    if (videoId) {
+                        loadVideoById(videoId);
+                    } else {
+                        alert('ไม่พบ video ID ใน URL');
+                    }
                 </script>
-
 
                 <div class="tags">
                     <a href="">#Entreprenuers</a> <a href="">#billionaires</a> <a href="">#RatanTata</a> <a

@@ -1,99 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Youtube Clone</title>
 </head>
+
 <body>
-    
     <nav class="flex-div">
         <div class="nav-left flex-div">
-            <img src="./assets/images/menu.png" class="menu-icon" alt="" srcset="">
-            <img src="./assets/images/logo.png" class="logo" alt="" srcset="">
+            <img src="./assets/images/menu.png" class="menu-icon" alt="" />
+            <img src="./assets/images/logo.png" class="logo" alt="" />
         </div>
         <div class="nav-middle flex-div">
-           <div class="search-box flex-div">
-               <input type="text" placeholder="Search..">
-               <img src="./assets/images/search.png" alt="" srcset="">
-           </div>
-           <img src="./assets/images/voice-search.png" class="mic-icon" alt="" srcset="">
+            <div class="search-box flex-div">
+                <input type="text" placeholder="Search.." />
+                <img src="./assets/images/search.png" alt="" />
+            </div>
+            <img src="./assets/images/voice-search.png" class="mic-icon" alt="" />
         </div>
         <div class="nav-right flex-div">
-            <img src="./assets/images/upload.png" alt="" srcset="">
-            <img src="./assets/images/more.png" alt="" srcset="">
-            <img src="./assets/images/notification.png" alt="" srcset="">
-            <img src="./assets/images/nilava.jpeg" class="user-icon" alt="" srcset="">
+            <img src="./assets/images/upload.png" alt="" />
+            <img src="./assets/images/more.png" alt="" />
+            <img src="./assets/images/notification.png" alt="" />
+            <img src="./assets/images/nilava.jpeg" class="user-icon" alt="" />
         </div>
     </nav>
 
     <!-- Side Bar -->
-
-     <div class="sidebar">
-         <div class="shortcut-links">
-             <a href="#"><img src="./assets/images/home.png"><p>Home</p></a>
-             <a href="#"><img src="./assets/images/explore.png"><p>explore</p></a>
-             <a href="#"><img src="./assets/images/subscriprion.png"><p>subscriprion</p></a>
-             <hr>
-             <a href="#"><img src="./assets/images/library.png"><p>library</p></a>
-             <a href="#"><img src="./assets/images/history.png"><p>History</p></a>
-             <a href="#"><img src="./assets/images/playlist.png"><p>playlist</p></a>
-             <a href="#"><img src="./assets/images/messages.png"><p>messages</p></a>
-             <a href="#"><img src="./assets/images/show-more.png"><p>Show more</p></a>
-             <hr>
-            </div>
-          <div class="subscribed-list">
-              <h3>SUBSCRIPTIONS</h3>
-              <a href="#"><img src="./assets/images/Jack.png"><p>Jack   &bull;</p></a>
-              <a href="#"><img src="./assets/images/simon.png"><p>simon </p></a>
-              <a href="#"><img src="./assets/images/tom.png"><p>Tom  &bull;</p></a>
-              <a href="#"><img src="./assets/images/megan.png"><p>Megan Fox  &bull;</p></a>
-              <a href="#"><img src="./assets/images/cameron.png"><p>Cameron Green </p></a>
-            
-            </div>
+    <div class="sidebar">
+        <div class="shortcut-links">
+            <a href="#"><img src="./assets/images/home.png" />
+                <p>Home</p>
+            </a>
+            <a href="#"><img src="./assets/images/explore.png" />
+                <p>explore</p>
+            </a>
+            <a href="#"><img src="./assets/images/subscriprion.png" />
+                <p>subscriprion</p>
+            </a>
+            <hr />
+            <a href="#"><img src="./assets/images/library.png" />
+                <p>library</p>
+            </a>
+            <a href="#"><img src="./assets/images/history.png" />
+                <p>History</p>
+            </a>
+            <a href="#"><img src="./assets/images/playlist.png" />
+                <p>playlist</p>
+            </a>
+            <a href="#"><img src="./assets/images/messages.png" />
+                <p>messages</p>
+            </a>
+            <a href="#"><img src="./assets/images/show-more.png" />
+                <p>Show more</p>
+            </a>
+            <hr />
         </div>
-
-<!-- Main Body -->
-<div class="container">
-    <div class="banner">
-        <img src="./assets/images/banner.png" alt="" srcset="">
+        <div class="subscribed-list">
+            <h3>SUBSCRIPTIONS</h3>
+            <a href="#"><img src="./assets/images/Jack.png" />
+                <p>Jack &bull;</p>
+            </a>
+            <a href="#"><img src="./assets/images/simon.png" />
+                <p>simon</p>
+            </a>
+            <a href="#"><img src="./assets/images/tom.png" />
+                <p>Tom &bull;</p>
+            </a>
+            <a href="#"><img src="./assets/images/megan.png" />
+                <p>Megan Fox &bull;</p>
+            </a>
+            <a href="#"><img src="./assets/images/cameron.png" />
+                <p>Cameron Green</p>
+            </a>
+        </div>
     </div>
-    <div class="list-container">
-       <div class="vid-list">
-           <a href="/watch-video"> <img src="./assets/thumbnails/thumbnail3.png" class="thumbnail" ></a>
-           <div class="flex-div">
-               <img src="./assets/images/nilava.jpeg">
-               <div class="vid-info">
-                   <a href="/watch-video">Filebase</a>
-                   <p>Avalin</p>
-                   <p>2k Views &bull; 2 days</p>
-               </div>
-           </div>
-       </div>
+
+    <!-- Main Body -->
+    <div class="container">
+        <div class="banner">
+            <img src="./assets/images/banner.png" alt="" />
+        </div>
+        <div class="list-container">
+            <!-- รายการวิดีโอจะถูกเพิ่มที่นี่ -->
+        </div>
     </div>
-    <div class="banner">
-        <img src="./assets/images/banner.png" alt="" srcset="">
+    <script>
+        async function loadVideos() {
+            try {
+                const response = await fetch('http://localhost:4000/api-v1/list');
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+                const listContainer = document.querySelector('.list-container');
+                listContainer.innerHTML = ''; // ล้างรายการเก่า
+
+                data.forEach(video => {
+                    const vidDiv = document.createElement('div');
+                    vidDiv.className = 'vid-list';
+
+                    // ▶ Thumbnail
+                    const thumbLink = document.createElement('a');
+                    thumbLink.href = `/watch-video?id=${video.id}`;
+
+                    const thumbImg = document.createElement('img');
+                    thumbImg.className = 'thumbnail';
+                    thumbImg.src = './assets/thumbnails/thumbnail3.png';
+                    thumbImg.alt = video.title;
+
+                    thumbLink.appendChild(thumbImg);
+                    vidDiv.appendChild(thumbLink);
+
+                    // ▶ Info (ใต้ thumbnail)
+                    const infoFlex = document.createElement('div');
+                    infoFlex.className = 'flex-div';
+
+                    const userIcon = document.createElement('img');
+                    userIcon.src = './assets/images/nilava.jpeg';
+                    userIcon.alt = 'User icon';
+
+                    const vidInfo = document.createElement('div');
+                    vidInfo.className = 'vid-info';
+
+                    // ชื่อวิดีโอ (ลิงก์)
+                    const titleLink = document.createElement('a');
+                    titleLink.href = `/watch-video?id=${video.id}`;
+                    titleLink.textContent = video.title;
+
+                    // ชื่อไฟล์
+                    const fileNameText = document.createElement('p');
+                    fileNameText.textContent = video.filename;
+
+                    // วันที่สร้าง
+                    const createdText = document.createElement('p');
+                    const date = new Date(video.created_at);
+                    createdText.textContent = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+
+                    vidInfo.append(titleLink, fileNameText, createdText);
+                    infoFlex.append(userIcon, vidInfo);
+                    vidDiv.appendChild(infoFlex);
+                    listContainer.appendChild(vidDiv);
+                });
+            } catch (err) {
+                console.error('❌ Fetch error:', err);
+                document.querySelector('.list-container').textContent = '❌ ไม่สามารถโหลดวิดีโอได้';
+            }
+        }
+
+        // เรียกใช้เมื่อโหลด script
+        loadVideos();
+    </script>
+    <style>
+        /* แถบโฆษณาด้านซ้าย */
+        .ad-left {
+            position: fixed;
+            top: 80px;
+            /* ให้เลื่อนลงมาหน่อยจาก navbar */
+            left: 0;
+            width: 10%;
+            height: auto;
+            background: #eee;
+            border: 1px solid #ccc;
+            z-index: 9999;
+            padding: 10px;
+        }
+
+        /* แถบโฆษณาด้านขวา */
+        .ad-right {
+            position: fixed;
+            top: 80px;
+            right: 0;
+            width: 10%;
+            height: auto;
+            background: #eee;
+            border: 1px solid #ccc;
+            z-index: 9999;
+            padding: 10px;
+        }
+
+        /* ปุ่มปิดโฆษณา */
+        .close-ad-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+
+    <!-- โฆษณาด้านซ้าย -->
+    <div class="ad-left">
+        <button class="close-ad-btn">&times;</button>
+        <a href="https://example.com/ads1" target="_blank">
+            <img src="https://i.pinimg.com/736x/6d/88/b7/6d88b7bb126d1531cd58af1b172e6af9.jpg" alt="Ads Left"
+                style="width:100%; height:80%;">
+        </a>
     </div>
-    <div class="list-container">
-       <div class="vid-list">
-           <a href="/watch-video-v2"> <img src="./assets/thumbnails/thumbnail3.png" class="thumbnail" ></a>
-           <div class="flex-div">
-               <img src="./assets/images/nilava.jpeg">
-               <div class="vid-info">
-                   <a href="/watch-video-v2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, nobis?</a>
-                   <p>Avalin</p>
-                   <p>2k Views &bull; 2 days</p>
-               </div>
-           </div>
-       </div>
+
+    <!-- โฆษณาด้านขวา -->
+    <div class="ad-right">
+        <button class="close-ad-btn">&times;</button>
+        <a href="https://example.com/ads2" target="_blank">
+            <img src="https://i.pinimg.com/736x/11/35/3c/11353cad535c73ac3ff46196a7c1b910.jpg" alt="Ads Right"
+                style="width:100%; height:80%;">
+        </a>
     </div>
-</div>
+
+    <script>
+        // เลือกปุ่มปิดทุกตัว แล้วเพิ่ม event
+        document.querySelectorAll('.close-ad-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // ซ่อนแถบโฆษณาที่ปุ่มนั้นอยู่ใน parent element
+                button.parentElement.style.display = 'none';
+            });
+        });
+    </script>
 
 
-<script src="scripts/side-bar.js"></script>
 
+    <script src="scripts/side-bar.js"></script>
 
 </body>
+
 </html>
